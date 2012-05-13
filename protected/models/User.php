@@ -7,9 +7,13 @@ class User extends PUser {
 	}
 
 	public function hashPassword($password, $salt) {
-		return md5($salt . $password);
+		return md5($salt . $password . md5($password));
 	}
-
+	
+	public static function model($className='User')
+	{
+		return parent::model($className);
+	}
 }
 
 /*
