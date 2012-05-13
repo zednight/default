@@ -11,6 +11,9 @@
  * @property string $email
  * @property integer $regtime
  * @property integer $lastlogin
+ *
+ * The followings are the available model relations:
+ * @property AuthItem[] $authItems
  */
 class PUser extends CActiveRecord
 {
@@ -57,6 +60,7 @@ class PUser extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'authItems' => array(self::MANY_MANY, 'AuthItem', 'AuthAssignment(userid, itemname)'),
 		);
 	}
 
