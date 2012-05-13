@@ -85,4 +85,5 @@ return array(
 		// this is used in contact page
 		'adminEmail' => 'ilia@bormotovi.ru',
 	),
+	'language' => 'ru',
 );
