@@ -19,6 +19,7 @@ class RoleForm extends CFormModel {
 	public function rules() {
 		return array(
 			array('name', 'required'),
+			array('name, description, bizRule', 'safe'),
 		);
 	}
 

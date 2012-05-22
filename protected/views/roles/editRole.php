@@ -1,10 +1,3 @@
-<?php
-$this->pageTitle = Yii::app()->name . ' - Roles';
-$this->breadcrumbs = array(
-	'Роли',
-);
-?>
-
 <h1>Роли</h1>
 
 <div class="form">
@@ -18,12 +11,11 @@ $this->breadcrumbs = array(
 			));
 	?>
 
-	<p class="note">Fields with <span class="required">*</span> are required.</p>
+	<p class="note">Поля помеченные<span class="required">*</span> обязательны для заполнения.</p>
 
 	<div class="row">
 		<?php echo $form->labelEx($model, 'name'); ?>
-		<?php echo $form->textField($model, 'name'); ?>
-		<?php echo $form->error($model, 'name'); ?>
+		<?php echo $model->name;?>
 	</div>
 
 	<div class="row">
@@ -39,7 +31,7 @@ $this->breadcrumbs = array(
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Submit'); ?>
+		<?php echo CHtml::submitButton('Изменить'); ?>
 	</div>
 
 	<?php $this->endWidget(); ?>
