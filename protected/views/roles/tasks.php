@@ -2,7 +2,7 @@
 	<?php
 	if(count($data)>0):
 	foreach ($data as $row => $value) :
-	?>
+		?>
 		<tr>
 			<td>
 				<?php echo $row; ?>
@@ -16,10 +16,10 @@
 			<td>
 				<?php
 				echo CHtml::link(
-						CHtml::image('/images/update.png'), $this->createUrl('roles/editRole', array('name' => $row))
+						CHtml::image('/images/update.png'), $this->createUrl('roles/editTask', array('name' => $row))
 				);
 				echo CHtml::link(
-						CHtml::image('/images/delete.png'), $this->createUrl('roles/deleteRole', array('name' => $row)), array(
+						CHtml::image('/images/delete.png'), $this->createUrl('roles/deleteTask', array('name' => $row)), array(
 					'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную роль?')) return false;"
 				));
 				?>

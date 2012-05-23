@@ -1,9 +1,9 @@
-<h1>Роли</h1>
+<h1>Создание задачи</h1>
 
 <div class="form">
 	<?php
 	$form = $this->beginWidget('CActiveForm', array(
-		'id' => 'role-form',
+		'id' => 'task-form',
 		'enableClientValidation' => true,
 		'clientOptions' => array(
 			'validateOnSubmit' => true,
@@ -32,7 +32,7 @@
 	</div>
 
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Изменить'); ?>
+		<?php echo CHtml::submitButton('Создать'); ?>
 	</div>
 
 	<?php $this->endWidget(); ?>
