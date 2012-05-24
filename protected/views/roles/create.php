@@ -1,4 +1,19 @@
-<h1>Роли</h1>
+<h1>Редактирование <?php
+		switch ($item) {
+			case 'role':
+				echo 'Роли';
+				break;
+			case 'task':
+				echo 'Задачи';
+				break;
+			case 'operation':
+				echo 'Операции';
+				break;
+			default:
+				echo 'Элемента';
+		}
+
+?></h1>
 
 <div class="form">
 	<?php
@@ -31,8 +46,14 @@
 		<?php echo $form->error($model, 'bizRule'); ?>
 	</div>
 
+	<div class="row">
+		<?php echo $form->labelEx($model, 'data'); ?>
+		<?php echo $form->textField($model, 'data'); ?>
+		<?php echo $form->error($model, 'data'); ?>
+	</div>
+
 	<div class="row buttons">
-		<?php echo CHtml::submitButton('Изменить'); ?>
+		<?php echo CHtml::submitButton('Сохранить'); ?>
 	</div>
 
 	<?php $this->endWidget(); ?>

@@ -15,10 +15,10 @@ class RolesController extends Controller {
 		$this->menu = array(
 			array('label' => 'Создать Роль', 'url' => array('createRole')),
 			array('label' => 'Создать Задачу', 'url' => array('createTask')),
-			array('label' => 'Задачи', 'url' => array('tasks')),
+			array('label' => 'Создать Операцию', 'url' => array('createOperation')),
 		);
 		$this->breadcrumbs = array(
-			'Роли' => array('index'),
+			'Управление Элементами' => array('index'),
 		);
 		$filterChain->run();
 	}
@@ -26,55 +26,55 @@ class RolesController extends Controller {
 	public function actionIndex() {
 		$this->pageTitle = Yii::app()->name . ' - Роли';
 
-		$data = Yii::app()->authManager->getRoles();
-		foreach ($data as $row => $value) {
-			$roles[$row] = Yii::app()->authManager->getAuthItem($row);
-		}
-		$this->render('index', array('data' => $roles));
-	}
-
-	public function actionTasks() {
-		$this->pageTitle = Yii::app()->name . ' - Задачи';
-
-		$data = Yii::app()->authManager->getTasks();
-		foreach ($data as $row => $value) {
-			$roles[$row] = Yii::app()->authManager->getAuthItem($row);
-		}
-		$this->render('tasks', array('data' => $roles));
+		$Roles = Yii::app()->authManager->getRoles();
+		$Tasks = Yii::app()->authManager->getTasks();
+		$Operations = Yii::app()->authManager->getOperations();
+		$this->render('index', array(
+			'roles' => $Roles,
+			'tasks' => $Tasks,
+			'operations' => $Operations,
+		));
 	}
 
 	public function actionCreateRole() {
-		$this->pageTitle = Yii::app()->name . ' - Создание Роли';
-		$this->breadcrumbs [] = 'Создать Роль';
-
-		$model = new RoleForm;
-
-		$Roles = Yii::app()->authManager->getRoles();
-		$Tasks = Yii::app()->authManager->getTasks();
-		$Operations = Yii::app()->authManager->getOperations();
-		if (isset($_POST['RoleForm']))
-		{
-			$model->setAttributes($_POST['RoleForm']);
-			if (!(array_key_exists($_POST['RoleForm']['name'], $Operations) || array_key_exists($_POST['RoleForm']['name'], $Tasks) || array_key_exists($_POST['RoleForm']['name'], $Roles)) && $model->validate())
-			{
-				$auth = Yii::app()->authManager;
-				$role = $auth->createRole($_POST['RoleForm']['name'], $_POST['RoleForm']['description'], $_POST['RoleForm']['bizRule']);
-				$this->redirect(array('index'));
-			}
-		}
-		if (array_key_exists($_POST['RoleForm']['name'], $Operations) || array_key_exists($_POST['RoleForm']['name'], $Tasks) || array_key_exists($_POST['RoleForm']['name'], $Roles))
-		{
-			$model->addError('name', 'Имя не уникально');
-		}
-		$this->render('createRole', array(
-			'model' => $model,
-		));
+		self::create('role');
 	}
 
 	public function actionCreateTask() {
-		$this->pageTitle = Yii::app()->name . ' - Создание Задачи';
-		$this->breadcrumbs [] = 'Создать Задачу';
+		self::create('task');
+	}
 
+	public function actionCreateOperation() {
+		self::create('operation');
+	}
+
+	protected function create($item) {
+		switch ($item) {
+			case 'role':
+				$this->pageTitle = Yii::app()->name . ' - Создание Роли';
+				break;
+			case 'task':
+				$this->pageTitle = Yii::app()->name . ' - Создание Задачи';
+				break;
+			case 'operation':
+				$this->pageTitle = Yii::app()->name . ' - Создание Операции';
+				break;
+			default:
+				$this->pageTitle = Yii::app()->name . ' - Создание Роли';
+		}
+		switch ($item) {
+			case 'role':
+				$this->breadcrumbs [] = 'Создать Роль';
+				break;
+			case 'task':
+				$this->breadcrumbs [] = 'Создать Задачу';
+				break;
+			case 'operation':
+				$this->breadcrumbs [] = 'Создать Операцию';
+				break;
+			default:
+				$this->breadcrumbs [] = 'Создать Роль';
+		}
 		$model = new RoleForm;
 
 		$Roles = Yii::app()->authManager->getRoles();
@@ -82,24 +82,47 @@ class RolesController extends Controller {
 		$Operations = Yii::app()->authManager->getOperations();
 		if (isset($_POST['RoleForm']))
 		{
+			if (!array_key_exists($_POST['RoleForm']['name'], $Operations) && !array_key_exists($_POST['RoleForm']['name'], $Tasks) && !array_key_exists($_POST['RoleForm']['name'], $Roles))
+			{
+				$repeat = false;
+			}
+			else
+			{
+				$repeat = true;
+			}
 			$model->setAttributes($_POST['RoleForm']);
-			if (!(array_key_exists($_POST['RoleForm']['name'], $Operations) || array_key_exists($_POST['RoleForm']['name'], $Tasks) || array_key_exists($_POST['RoleForm']['name'], $Roles)) && $model->validate())
+			if (!$repeat && $model->validate())
 			{
 				$auth = Yii::app()->authManager;
-				$role = $auth->createTask($_POST['RoleForm']['name'], $_POST['RoleForm']['description'], $_POST['RoleForm']['bizRule']);
+				switch ($item) {
+					case 'role':
+						$role = $auth->createRole($_POST['RoleForm']['name'], $_POST['RoleForm']['description'], $_POST['RoleForm']['bizRule'], $_POST['RoleForm']['data']);
+						break;
+					case 'task':
+						$role = $auth->createTask($_POST['RoleForm']['name'], $_POST['RoleForm']['description'], $_POST['RoleForm']['bizRule'], $_POST['RoleForm']['data']);
+						break;
+					case 'operation':
+						$role = $auth->createOperation($_POST['RoleForm']['name'], $_POST['RoleForm']['description'], $_POST['RoleForm']['bizRule'], $_POST['RoleForm']['data']);
+						break;
+					default:
+						$role = $auth->createRole($_POST['RoleForm']['name'], $_POST['RoleForm']['description'], $_POST['RoleForm']['bizRule'], $_POST['RoleForm']['data']);
+				}
+
 				$this->redirect(array('index'));
 			}
 		}
-		if (array_key_exists($_POST['RoleForm']['name'], $Operations) || array_key_exists($_POST['RoleForm']['name'], $Tasks) || array_key_exists($_POST['RoleForm']['name'], $Roles))
+		if ($repeat)
 		{
 			$model->addError('name', 'Имя не уникально');
 		}
-		$this->render('createTask', array(
+
+		$this->render('create', array(
+			'item' => $item,
 			'model' => $model,
 		));
 	}
 
-	public function actionEditRole($name) {
+	public function actionEdit($name) {
 		$role = Yii::app()->authManager->getAuthItem($name);
 
 		if (!$role)
@@ -116,36 +139,32 @@ class RolesController extends Controller {
 				$role->name = $_POST['RoleForm']['name'];
 				$role->description = $_POST['RoleForm']['description'];
 				$role->bizRule = $_POST['RoleForm']['bizRule'];
-				$this->redirect(array('editRole', 'name' => $role->name));
+				$role->data = $_POST['RoleForm']['data'];
+				$this->redirect(array('edit', 'name' => $role->name));
 			}
 		}
 
-		$this->pageTitle = Yii::app()->name . ' - Редактирование Роли ' . $name;
-		$this->breadcrumbs [] = 'Роль ' . $name;
+		$this->pageTitle = Yii::app()->name . ' - Редактирование ' . $name;
+		$this->breadcrumbs [] = $name;
 
 
 		$role_form = array(
 			'name' => $role->name,
 			'description' => $role->description,
 			'bizRule' => $role->bizRule,
+			'data' => $role->data,
 		);
 		$model->setAttributes($role_form);
 
-		$this->render('editRole', array(
+		$this->render('create', array(
 			'model' => $model,
 		));
 	}
-
-	public function actionDeleteRole($name) {
+	
+	public function actionDelete($name){
 		$auth = Yii::app()->authManager;
 		$role = $auth->removeAuthItem($name);
 		$this->redirect(array('index'));
-	}
-
-	public function actionDeleteTask($name) {
-		$auth = Yii::app()->authManager;
-		$role = $auth->removeAuthItem($name);
-		$this->redirect(array('tasks'));
 	}
 
 }
