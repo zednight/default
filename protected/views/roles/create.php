@@ -1,18 +1,17 @@
 <h1>Редактирование <?php
-		switch ($item) {
-			case 'role':
-				echo 'Роли';
-				break;
-			case 'task':
-				echo 'Задачи';
-				break;
-			case 'operation':
-				echo 'Операции';
-				break;
-			default:
-				echo 'Элемента';
-		}
-
+switch ($item) {
+	case 'role':
+		echo 'Роли';
+		break;
+	case 'task':
+		echo 'Задачи';
+		break;
+	case 'operation':
+		echo 'Операции';
+		break;
+	default:
+		echo 'Элемента';
+}
 ?></h1>
 
 <div class="form">
@@ -27,6 +26,12 @@
 	?>
 
 	<p class="note">Поля помеченные<span class="required">*</span> обязательны для заполнения.</p>
+
+	<div class="row">
+		<?php echo $form->labelEx($model, 'item'); ?>
+		<?php echo $form->radioButtonList($model, 'item', $model->getItems()); ?>
+		<?php echo $form->error($model, 'item'); ?>
+	</div>
 
 	<div class="row">
 		<?php echo $form->labelEx($model, 'name'); ?>

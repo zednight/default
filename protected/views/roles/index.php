@@ -4,10 +4,10 @@
 	if(count($roles)>0):
 	foreach ($roles as $item) :
 		echo CHtml::link(
-				CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $row))
+				CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $item->name))
 		);
 		echo CHtml::link(
-				CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $row)), array(
+				CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $item->name)), array(
 			'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную роль?')) return false;"
 		));
 		echo $item->name;
@@ -22,10 +22,10 @@
 	if(count($tasks)>0):
 	foreach ($tasks as $row => $item) :
 		echo CHtml::link(
-				CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $row))
+				CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $item->name))
 		);
 		echo CHtml::link(
-				CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $row)), array(
+				CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $item->name)), array(
 			'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную задачу?')) return false;"
 		));
 		echo $item->name;
@@ -40,10 +40,10 @@
 	if(count($operations)>0):
 	foreach ($operations as $row => $item) :
 		echo CHtml::link(
-				CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $row))
+				CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $item->name))
 		);
 		echo CHtml::link(
-				CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $row)), array(
+				CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $item->name)), array(
 			'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную операцию?')) return false;"
 		));
 		echo $item->name;

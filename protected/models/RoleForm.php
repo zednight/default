@@ -11,6 +11,7 @@ class RoleForm extends CFormModel {
 	public $description;
 	public $bizRule;
 	public $data;
+	public $item;
 
 	/**
 	 * Declares the validation rules.
@@ -19,8 +20,9 @@ class RoleForm extends CFormModel {
 	 */
 	public function rules() {
 		return array(
-			array('name', 'required'),
+			array('name,item', 'required'),
 			array('name, description, bizRule, data', 'safe'),
+			array('item', 'in', 'range' => array_keys(self::getItems())),
 		);
 	}
 
@@ -32,8 +34,13 @@ class RoleForm extends CFormModel {
 			'name' => 'Имя элемента',
 			'description' => 'Описание элемента',
 			'bizRule' => 'Бизнес правило',
-			'data' => 'Данные'
+			'data' => 'Данные',
+			'item' => 'Элемент'
 		);
+	}
+
+	public static function getItems() {
+		return array('role'=>'Роль','task'=>'Задача','operation'=>'Операция');
 	}
 
 }

@@ -13,9 +13,7 @@ class RolesController extends Controller {
 
 	public function filterBefore($filterChain) {
 		$this->menu = array(
-			array('label' => 'Создать Роль', 'url' => array('createRole')),
-			array('label' => 'Создать Задачу', 'url' => array('createTask')),
-			array('label' => 'Создать Операцию', 'url' => array('createOperation')),
+			array('label' => 'Создать элемент', 'url' => array('createItem')),
 		);
 		$this->breadcrumbs = array(
 			'Управление Элементами' => array('index'),
@@ -36,16 +34,8 @@ class RolesController extends Controller {
 		));
 	}
 
-	public function actionCreateRole() {
-		self::create('role');
-	}
-
-	public function actionCreateTask() {
-		self::create('task');
-	}
-
-	public function actionCreateOperation() {
-		self::create('operation');
+	public function actionCreateItem() {
+		self::create($_POST['RoleForm']['item'] ? $_POST['RoleForm']['item'] : current(RoleForm::getItems()));
 	}
 
 	protected function create($item) {
@@ -91,7 +81,7 @@ class RolesController extends Controller {
 				$repeat = true;
 			}
 			$model->setAttributes($_POST['RoleForm']);
-			if (!$repeat && $model->validate())
+			if (!$repeat && CActiveForm::validate($model))
 			{
 				$auth = Yii::app()->authManager;
 				switch ($item) {
