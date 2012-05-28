@@ -65,7 +65,7 @@ class RolesController extends Controller {
 			default:
 				$this->breadcrumbs [] = 'Создать Роль';
 		}
-		$model = new RoleForm;
+		$model = new RoleForm('create');
 
 		$Roles = Yii::app()->authManager->getRoles();
 		$Tasks = Yii::app()->authManager->getTasks();
@@ -81,7 +81,7 @@ class RolesController extends Controller {
 				$repeat = true;
 			}
 			$model->setAttributes($_POST['RoleForm']);
-			if (!$repeat && CActiveForm::validate($model))
+			if (!$repeat && $model->validate())
 			{
 				$auth = Yii::app()->authManager;
 				switch ($item) {

@@ -20,9 +20,10 @@ class RoleForm extends CFormModel {
 	 */
 	public function rules() {
 		return array(
-			array('name,item', 'required'),
+			array('name', 'required'),
+			array('item', 'required','on'=>'create'),
 			array('name, description, bizRule, data', 'safe'),
-			array('item', 'in', 'range' => array_keys(self::getItems())),
+			array('item', 'in', 'range' => array_keys(self::getItems()),'on'=>'create'),
 		);
 	}
 
