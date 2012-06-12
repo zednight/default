@@ -13,7 +13,7 @@ class RolesController extends Controller {
 
 	public function filterBefore($filterChain) {
 		$this->menu = array(
-			array('label' => 'Создать элемент', 'url' => array('createItem')),
+			array('label' => 'Создать элемент', 'url' => array('create')),
 		);
 		$this->breadcrumbs = array(
 			'Управление Элементами' => array('index'),
@@ -22,7 +22,7 @@ class RolesController extends Controller {
 	}
 
 	public function actionIndex() {
-		$this->pageTitle = Yii::app()->name . ' - Роли';
+		$this->pageTitle = Yii::app()->name . ' - Элементы авторизации';
 
 		$Roles = Yii::app()->authManager->getRoles();
 		$Tasks = Yii::app()->authManager->getTasks();
@@ -34,7 +34,92 @@ class RolesController extends Controller {
 		));
 	}
 
-	public function actionCreateItem() {
+	public function actionAddChild($name, $parent) {
+		if (Yii::app()->request->isAjaxRequest)
+		{
+			$role = Yii::app()->authManager->getAuthItem($name);
+			$parentRole = Yii::app()->authManager->getAuthItem($parent);
+			//Yii::app()->authManager->addItemChild('test2','tester') ;
+			if (is_null($role) || is_null($parentRole))
+			{
+				throw new CHttpException(404);
+			}
+			$auth = Yii::app()->authManager;
+			$auth->addItemChild($parent, $name);
+			$this->redirect(array('detail', 'name' => $parent));
+		}
+		else
+		{
+			throw new CHttpException(404);
+		}
+	}
+
+	public function actionDeleteChild($name, $parent) {
+		if (Yii::app()->request->isAjaxRequest)
+		{
+			$role = Yii::app()->authManager->getAuthItem($name);
+			$parentRole = Yii::app()->authManager->getAuthItem($parent);
+			//Yii::app()->authManager->addItemChild('test2','tester') ;
+			if (is_null($role) || is_null($parentRole))
+			{
+				throw new CHttpException(404);
+			}
+			$auth = Yii::app()->authManager;
+			$auth->removeItemChild($parent, $name);
+			$this->redirect(array('detail', 'name' => $parent));
+		}
+		else
+		{
+			throw new CHttpException(404);
+		}
+	}
+
+	public function actionDeleteParent($name, $child) {
+		if (Yii::app()->request->isAjaxRequest)
+		{
+			$role = Yii::app()->authManager->getAuthItem($name);
+			$childRole = Yii::app()->authManager->getAuthItem($child);
+			//Yii::app()->authManager->addItemChild('test2','tester') ;
+			if (is_null($role) || is_null($childRole))
+			{
+				throw new CHttpException(404);
+			}
+			$auth = Yii::app()->authManager;
+			$auth->removeItemChild($name, $child);
+			$this->redirect(array('detail', 'name' => $child));
+		}
+		else
+		{
+			throw new CHttpException(404);
+		}
+	}
+
+	public function actionDetail($name) {
+
+		$role = Yii::app()->authManager->getAuthItem($name);
+		//Yii::app()->authManager->addItemChild('test2','tester') ;
+		if (is_null($role))
+		{
+			throw new CHttpException(404);
+		}
+		
+		//Yii::app()->clientScript->registerScriptFile('/js/jquery-1.7.2.js', CClientScript::POS_HEAD);
+		Yii::app()->getClientScript()->registerCoreScript('jquery'); 
+		$this->breadcrumbs [] = 'Cвязи элемента ' . $role->getName();
+		$this->pageTitle = Yii::app()->name . ' - Cвязи элемента ' . $role->getName();
+
+		$Roles = Yii::app()->authManager->getRoles();
+		$Tasks = Yii::app()->authManager->getTasks();
+		$Operations = Yii::app()->authManager->getOperations();
+		$this->render('detail', array(
+			'roles' => $Roles,
+			'tasks' => $Tasks,
+			'operations' => $Operations,
+			'authItem' => $role,
+		));
+	}
+
+	public function actionCreate() {
 		self::create($_POST['RoleForm']['item'] ? $_POST['RoleForm']['item'] : current(RoleForm::getItems()));
 	}
 
@@ -50,7 +135,7 @@ class RolesController extends Controller {
 				$this->pageTitle = Yii::app()->name . ' - Создание Операции';
 				break;
 			default:
-				$this->pageTitle = Yii::app()->name . ' - Создание Роли';
+				$this->pageTitle = Yii::app()->name . ' - Создание Элемента';
 		}
 		switch ($item) {
 			case 'role':
@@ -63,7 +148,7 @@ class RolesController extends Controller {
 				$this->breadcrumbs [] = 'Создать Операцию';
 				break;
 			default:
-				$this->breadcrumbs [] = 'Создать Роль';
+				$this->breadcrumbs [] = 'Создать Элемент';
 		}
 		$model = new RoleForm('create');
 
@@ -113,10 +198,11 @@ class RolesController extends Controller {
 	}
 
 	public function actionEdit($name) {
+		//echo '1111'.Yii::app()->authManager->asa($name);
 		$role = Yii::app()->authManager->getAuthItem($name);
-
-		if (!$role)
+		if (is_null($role))
 		{
+			throw new CHttpException(404);
 			$this->redirect(array('index'));
 		}
 		$model = new RoleForm;
@@ -150,8 +236,8 @@ class RolesController extends Controller {
 			'model' => $model,
 		));
 	}
-	
-	public function actionDelete($name){
+
+	public function actionDelete($name) {
 		$auth = Yii::app()->authManager;
 		$role = $auth->removeAuthItem($name);
 		$this->redirect(array('index'));

@@ -28,7 +28,7 @@ switch ($item) {
 	<p class="note">Поля помеченные<span class="required">*</span> обязательны для заполнения.</p>
 
 	<div class="row">
-		<?php if($this->getAction()->getId()=='createItem'):?>
+		<?php if($this->getAction()->getId()=='create'):?>
 		<?php echo $form->labelEx($model, 'item'); ?>
 		<?php echo $form->radioButtonList($model, 'item', $model->getItems()); ?>
 		<?php echo $form->error($model, 'item'); ?>
