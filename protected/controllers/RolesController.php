@@ -18,6 +18,7 @@ class RolesController extends Controller {
 		$this->breadcrumbs = array(
 			'Управление Элементами' => array('index'),
 		);
+		Yii::app()->getClientScript()->registerCssFile('/css/my.css');
 		$filterChain->run();
 	}
 
@@ -35,8 +36,8 @@ class RolesController extends Controller {
 	}
 
 	public function actionAddChild($name, $parent) {
-		if (Yii::app()->request->isAjaxRequest)
-		{
+//		if (Yii::app()->request->isAjaxRequest)
+//		{
 			$role = Yii::app()->authManager->getAuthItem($name);
 			$parentRole = Yii::app()->authManager->getAuthItem($parent);
 			//Yii::app()->authManager->addItemChild('test2','tester') ;
@@ -47,16 +48,16 @@ class RolesController extends Controller {
 			$auth = Yii::app()->authManager;
 			$auth->addItemChild($parent, $name);
 			$this->redirect(array('detail', 'name' => $parent));
-		}
-		else
-		{
-			throw new CHttpException(404);
-		}
+//		}
+//		else
+//		{
+//			throw new CHttpException(404);
+//		}
 	}
 
 	public function actionDeleteChild($name, $parent) {
-		if (Yii::app()->request->isAjaxRequest)
-		{
+//		if (Yii::app()->request->isAjaxRequest)
+//		{
 			$role = Yii::app()->authManager->getAuthItem($name);
 			$parentRole = Yii::app()->authManager->getAuthItem($parent);
 			//Yii::app()->authManager->addItemChild('test2','tester') ;
@@ -67,16 +68,16 @@ class RolesController extends Controller {
 			$auth = Yii::app()->authManager;
 			$auth->removeItemChild($parent, $name);
 			$this->redirect(array('detail', 'name' => $parent));
-		}
-		else
-		{
-			throw new CHttpException(404);
-		}
+//		}
+//		else
+//		{
+//			throw new CHttpException(404);
+//		}
 	}
 
 	public function actionDeleteParent($name, $child) {
-		if (Yii::app()->request->isAjaxRequest)
-		{
+//		if (Yii::app()->request->isAjaxRequest)
+//		{
 			$role = Yii::app()->authManager->getAuthItem($name);
 			$childRole = Yii::app()->authManager->getAuthItem($child);
 			//Yii::app()->authManager->addItemChild('test2','tester') ;
@@ -87,11 +88,11 @@ class RolesController extends Controller {
 			$auth = Yii::app()->authManager;
 			$auth->removeItemChild($name, $child);
 			$this->redirect(array('detail', 'name' => $child));
-		}
-		else
-		{
-			throw new CHttpException(404);
-		}
+//		}
+//		else
+//		{
+//			throw new CHttpException(404);
+//		}
 	}
 
 	public function actionDetail($name) {

@@ -1,0 +1,14 @@
+.tv{
+	border: 1px solid black;
+}
+.tv td{
+	border: 1px solid black;
+	height: 30px;
+	vertical-align: middle;
+	width:25%;
+}
+.tv td *{
+	margin:0px;
+}
+.tv tr{
+}
