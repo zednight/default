@@ -158,11 +158,17 @@ foreach ($elements as $element => $values) {
 				));
 				if ($authItem->getType() >= Yii::app()->authManager->getAuthItem($item->name)->getType())
 					echo CHtml::link(
-							CHtml::image('/images/plus.gif'), $this->createUrl('roles/addChild', array(
+							CHtml::image('/images/child.png'), $this->createUrl('roles/addChild', array(
 								'name' => $item->name,
 								'parent' => $authItem->getName()
 							)));
-				echo CHtml::link($item->name, $this->createUrl('roles/detail', array('name' => $item->name)),Yii::app()->user->checkAccess($item->name) ? array('style'=>'font-weight:bold;') : array());
+				if ($authItem->getType() <= Yii::app()->authManager->getAuthItem($item->name)->getType())
+					echo CHtml::link(
+							CHtml::image('/images/parent.png'), $this->createUrl('roles/addParent', array(
+								'name' => $authItem->getName(),
+								'parent' => $item->name,
+							)));
+					echo CHtml::link($item->name, $this->createUrl('roles/detail', array('name' => $item->name)),Yii::app()->user->checkAccess($item->name) ? array('style'=>'font-weight:bold;') : array());
 			}
 			echo '</div>' . "\r\n";
 		endforeach;
