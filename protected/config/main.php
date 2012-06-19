@@ -85,6 +85,9 @@ return array(
 	'params' => array(
 		// this is used in contact page
 		'adminEmail' => 'ilia@bormotovi.ru',
+		'dateFormat'=>'d/m/Y',
+		'dateSeparator'=>'/',
+		'dateRegExp'=>'/^\d{2}\/\d{2}\/\d{4}$/',
 	),
 	'language' => 'ru',
 );
