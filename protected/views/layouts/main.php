@@ -34,6 +34,7 @@
 				array('label'=>'Вход', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Выход ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest),
 				array('label'=>'Роли', 'url'=>array('/roles/index')),
+				array('label'=>'Пользователи', 'url'=>array('/user/index')),
 			),
 		)); ?>
 	</div><!-- mainmenu -->

@@ -1,13 +1,10 @@
 <?php
-$this->breadcrumbs=array(
-	'Users'=>array('index'),
-	'Manage',
-);
+$this->breadcrumbs[]='Управление';
 
-$this->menu=array(
-	array('label'=>'List User', 'url'=>array('index')),
-	array('label'=>'Create User', 'url'=>array('create')),
-);
+//$this->menu=array(
+//	array('label'=>'List User', 'url'=>array('index')),
+//	array('label'=>'Create User', 'url'=>array('create')),
+//);
 
 Yii::app()->clientScript->registerScript('search', "
 $('.search-button').click(function(){
@@ -44,10 +41,11 @@ or <b>=</b>) at the beginning of each of your search values to specify how the c
 	'columns'=>array(
 		'id',
 		'username',
-		'password',
-		'salt',
+		//'password',
+		//'salt',
 		'email',
 		'regtime',
+		'lastlogin',
 		/*
 		'lastlogin',
 		*/

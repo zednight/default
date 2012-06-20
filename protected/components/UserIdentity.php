@@ -28,7 +28,7 @@ class UserIdentity extends CUserIdentity {
 		{
 			$this->_id = $user->id;
 			$this->username = $user->username;
-			$user->lastlogin=time();
+			$user->lastlogin=date(Yii::app()->params['dateTimeFormat'],time());
 			$user->save();
 			$this->errorCode = self::ERROR_NONE;
 		}

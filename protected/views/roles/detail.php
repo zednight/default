@@ -67,10 +67,10 @@ echo '<td style=" border-right:0px; text-align:center;">' . "\r\n";
 if ($authItem->getType() === 2)
 {
 	echo CHtml::link(
-			CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $item->name))
+			CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $authItem->getName()))
 	);
 	echo CHtml::link(
-			CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $item->name)), array(
+			CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $authItem->getName())), array(
 		'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную Роль?')) return false;"
 	));
 
@@ -81,11 +81,11 @@ echo '<td style=" border-left:0px; border-right:0px; text-align:center;">' . "\r
 if ($authItem->getType() === 1)
 {
 	echo CHtml::link(
-			CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $item->name))
+			CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $authItem->getName()))
 	);
 	echo CHtml::link(
-			CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $item->name)), array(
-		'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную Роль?')) return false;"
+			CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $authItem->getName())), array(
+		'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную Задачу?')) return false;"
 	));
 
 	echo '<h3 style="color:#F00;">' . $authItem->getName() . '</h3>' . "\r\n";
@@ -95,11 +95,11 @@ echo '<td style=" border-left:0px; text-align:center;">' . "\r\n";
 if ($authItem->getType() === 0)
 {
 	echo CHtml::link(
-			CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $item->name))
+			CHtml::image('/images/update.png'), $this->createUrl('roles/edit', array('name' => $authItem->getName()))
 	);
 	echo CHtml::link(
-			CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $item->name)), array(
-		'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную Роль?')) return false;"
+			CHtml::image('/images/delete.png'), $this->createUrl('roles/delete', array('name' => $authItem->getName())), array(
+		'OnClick' => "if(!confirm('Вы уверены, что хотите удалить данную Операцию?')) return false;"
 	));
 
 	echo '<h3 style="color:#F00;">' . $authItem->getName() . '</h3>' . "\r\n";
