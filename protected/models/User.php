@@ -1,7 +1,8 @@
 <?php
 
 class User extends PUser {
-
+	public $_oldPassword;
+			
 	public function validatePassword($password) {
 		return $this->hashPassword($password, $this->salt) === $this->password;
 	}
@@ -58,16 +59,21 @@ class User extends PUser {
 			$date_arr = explode(Yii::app()->params['dateSeparator'], $this->regtime);
 			$this->regtime = mktime(0, 0, 0, $date_arr[1], $date_arr[0], $date_arr[2]);
 		}
-		$this->password = $this->hashPassword($this->password, $this->salt);
+		if($this->isNewRecord || ($this->password!=$this->_oldPassword && $this->password!=$this->hashPassword($this->_oldPassword,$this->salt) && !empty($this->password))){
+			$this->password = $this->hashPassword($this->password, $this->salt);
+		}else{
+			$this->password=$this->_oldPassword;
+		}
 		return true;
 	}
 
-	protected function afterConstruct() {
-		parent::afterConstruct();
+	protected function afterFind() {
+		parent::afterFind();
 		if(!is_null($this->lastlogin))
 			$this->lastlogin = date(Yii::app()->params['dateFormat'], $this->lastlogin);
 		if(!is_null($this->regtime))
 			$this->regtime = date(Yii::app()->params['dateFormat'], $this->regtime);
+		$this->_oldPassword=$this->password;
 	}
 
 }
